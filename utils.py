@@ -168,7 +168,7 @@ def train(streams, labels):
     print("Testing size:  {}".format(stream_amount - training_size))
 
     # Initialize the classifier.
-    clf = KNeighborsClassifier()
+    clf = KNeighborsClassifier(n_neighbors=4)
 
     # Now lets train our KNN classifier.
     clf = clf.fit(training_x, training_y)
