@@ -4,7 +4,7 @@ import os.path
 import sys
 import json
 import utils
-from joblib import load
+from sklearn.externals import joblib
 
 
 if len(sys.argv) == 1:
@@ -12,15 +12,15 @@ if len(sys.argv) == 1:
     sys.exit(1)
 
 elif os.path.exists('config.json') == False:
-    print("No configuration found")
+    print "No configuration found"
     sys.exit(1)
 
 elif os.path.exists('./classifier-nb.dmp') == False:
-    print("No classifier dump found; train first")
+    print "No classifier dump found; train first"
     sys.exit(1)
 
 elif os.path.exists(sys.argv[1]) == False:
-    print("The input file was not found")
+    print "The input file was not found"
     sys.exit(1)
 
 # Read the configuration and start training.
@@ -46,7 +46,7 @@ with open('config.json') as fp:
 print("Loading the classifier...")
 
 # Try to read the classifier.
-classifier = load("./classifier-nb.dmp")
+classifier = joblib.load("./classifier-nb.dmp")
 i = 0
 right = 0
 wrong = 0
@@ -57,7 +57,7 @@ stream = utils.read_pcap_file(sys.argv[1])
 # Run the prediction.
 prediction = classifier.predict([stream])
 
-print(classifier.predict_proba([stream]))
+print classifier.predict_proba([stream])
 
 # Print the results.
-print(f"[{prediction[0]}] Prediction: {base_labels[prediction[0] - 1]}")
+print("[{}] Prediction: {}".format(prediction[0], base_labels[prediction[0] - 1]))
